@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CampsiteTracker.Models;
+using CampsiteTracker.DAL;
 
 namespace CampsiteTracker.Controllers
 {
@@ -13,18 +15,28 @@ namespace CampsiteTracker.Controllers
             return View();
         }
 
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult Create(string Name, string Location, string TentType, string VehicleAccess,
+                            string CampsiteType, string ToiletAccess, string DogFriendly)
         {
-            ViewBag.Message = "Your application description page.";
+            using (CampsiteContext db = new CampsiteContext())
+            {
+                var campsite = new Campsite();
 
-            return View();
-        }
+                campsite.Name = Name;
+                campsite.Location = Location;
+                campsite.TentType = TentType;
+                campsite.VehicleAccess = VehicleAccess;
+                campsite.CampsiteType = CampsiteType;
+                campsite.ToiletAccess = ToiletAccess;
+                campsite.DogFriendly = DogFriendly;
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+                db.Campsites.Add(campsite);
+                db.SaveChanges();
 
-            return View();
+                ViewBag.Message = "Your request has been submitted";
+                return View();
+            }
         }
     }
-}
+    }

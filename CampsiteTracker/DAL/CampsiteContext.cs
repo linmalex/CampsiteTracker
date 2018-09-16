@@ -1,0 +1,26 @@
+﻿using CampsiteTracker.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Linq;
+using System.Web;
+
+namespace CampsiteTracker.DAL
+{
+    public class CampsiteContext : DbContext
+    {
+
+        public CampsiteContext() : base("CampsiteContext")
+        {
+        }
+
+        public DbSet<Campsite> Campsites { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+        modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        }
+
+    }
+}
